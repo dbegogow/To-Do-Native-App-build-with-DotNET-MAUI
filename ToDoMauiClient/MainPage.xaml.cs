@@ -1,24 +1,51 @@
-﻿namespace ToDoMauiClient;
+﻿using System.Diagnostics;
+using ToDoMauiClient.DataServices;
+using ToDoMauiClient.Models;
+using ToDoMauiClient.Pages;
+
+namespace ToDoMauiClient;
 
 public partial class MainPage : ContentPage
 {
-	int count = 0;
+    private IRestDataService _dataService;
 
-	public MainPage()
-	{
-		InitializeComponent();
-	}
+    public MainPage(IRestDataService dataService)
+    {
+        InitializeComponent();
 
-	private void OnCounterClicked(object sender, EventArgs e)
-	{
-		count++;
+        this._dataService = dataService;
+    }
 
-		if (count == 1)
-			CounterBtn.Text = $"Clicked {count} time";
-		else
-			CounterBtn.Text = $"Clicked {count} times";
+    protected async override void OnAppearing()
+    {
+        base.OnAppearing();
 
-		SemanticScreenReader.Announce(CounterBtn.Text);
-	}
+        collectionView.ItemsSource = await this._dataService
+            .GetAllToDosAsync();
+    }
+
+    async void OnAddToDoClicked(object sender, EventArgs e)
+    {
+        Debug.WriteLine("---> Add button clicked!");
+
+        var navigationParameter = new Dictionary<string, object>
+        {
+            {nameof(ToDo), new ToDo() }
+        };
+
+        await Shell.Current.GoToAsync(nameof(ManageToDoPage), navigationParameter);
+    }
+
+    async void OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        Debug.WriteLine("---> Item changed clicked!");
+
+        var navigationParameter = new Dictionary<string, object>
+        {
+            {nameof(ToDo), e.CurrentSelection.FirstOrDefault() as ToDo }
+        };
+
+        await Shell.Current.GoToAsync(nameof(ManageToDoPage), navigationParameter);
+    }
 }
 
