@@ -8,9 +8,37 @@ public class ToDo : INotifyPropertyChanged
 
     private string _todoname;
 
-    public int Id { get; set; }
+    public int Id
+    {
+        get => this._id;
+        set
+        {
+            if (this._id == value)
+            {
+                return;
+            }
 
-    public int ToDoName { get; set; }
+            this._id = value;
+
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(this.Id)));
+        }
+    }
+
+    public string ToDoName
+    {
+        get => this._todoname;
+        set
+        {
+            if (this._todoname == value)
+            {
+                return;
+            }
+
+            this._todoname = value;
+
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(this.ToDoName)));
+        }
+    }
 
     public event PropertyChangedEventHandler PropertyChanged;
 }
