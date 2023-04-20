@@ -153,7 +153,7 @@ public class RestDataService : IRestDataService
         try
         {
             var response = await this._httpClient
-                .DeleteAsync($"{this._url}/todo{id}");
+                .DeleteAsync($"{this._url}/todo/{id}");
 
             if (response.IsSuccessStatusCode)
             {
