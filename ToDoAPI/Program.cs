@@ -39,7 +39,7 @@ app.MapPut("api/todo/{id}", async (AppDbContext context, int id, ToDo toDo) =>
     return Results.NoContent();
 });
 
-app.MapPut("api/todo/{id}", async (AppDbContext context, int id, ToDo toDo) =>
+app.MapDelete("api/todo/{id}", async (AppDbContext context, int id, ToDo toDo) =>
 {
     var toDoModel = await context.ToDos
         .FirstOrDefaultAsync(t => t.Id == id);
