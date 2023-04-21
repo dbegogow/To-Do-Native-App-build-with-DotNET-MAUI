@@ -17,7 +17,7 @@ public static class MauiProgram
             });
 
         builder.Services
-            .AddSingleton<IRestDataService, RestDataService>();
+            .AddHttpClient<IRestDataService, RestDataService>();
 
         builder.Services
             .AddSingleton<MainPage>()

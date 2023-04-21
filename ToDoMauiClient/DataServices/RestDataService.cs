@@ -12,12 +12,14 @@ public class RestDataService : IRestDataService
     private readonly string _url;
     private readonly JsonSerializerOptions _jsonSerializerOptions;
 
-    public RestDataService()
+    public RestDataService(HttpClient httpClient)
     {
-        this._httpClient = new HttpClient();
+        this._httpClient = httpClient;
+
         this._baseAddress = DeviceInfo.Platform == DevicePlatform.Android
             ? "http://10.0.2.2:5126"
             : "https://localhost:7291";
+
         this._url = $"{this._baseAddress}/api";
 
         this._jsonSerializerOptions = new JsonSerializerOptions
